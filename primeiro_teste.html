@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Canvas</title>
+</head>
+<body>
+    <canvas></canvas>
+    <script>
+        const tela = document.querySelector('canvas');
+        const pincel = tela.getContext('2d');
+        var cont = 0;
+        var mouseAtivado = false;
+        const cores = ['darkgreen','green','yellow'];
+        pincel.fillStyle = 'grey';
+        pincel.fillRect(0,0,600,400);
+        
+        function arcosOnClick(evento){
+            const x = evento.pageX - tela.offsetLeft;
+            const y = evento.pageY - tela.offsetTop; 
+            const raio = evento.shiftKey ? 20 : 10;
+            pincel.fillStyle = cores[cont];
+            pincel.beginPath();
+            pincel.arc(x, y, raio, 0, 6.28);
+            pincel.fill();
+        }
+        function pintar(evento){
+            if (mouseAtivado){
+                const x = evento.pageX - tela.offsetLeft;
+                const y = evento.pageY - tela.offsetTop; 
+                const raio = evento.shiftKey ? 20 : 10;
+                pincel.fillStyle = cores[cont];
+                pincel.beginPath();
+                pincel.arc(x, y, raio, 0, 6.28);
+                pincel.fill();
+            }
+        }
+        function mudarCor(){
+            cont = cont<2 ? cont + 1 : 0;              
+          
+            return false;
+        }
+        function ativado(){
+            mouseAtivado = true;
+        }
+        function desativado(){
+            mouseAtivado = false;
+        }
+        tela.onmousemove = pintar;
+        tela.onmousedown = ativado;
+        tela.onmouseup = desativado;
+        tela.onclick = arcosOnClick;
+        tela.oncontextmenu = mudarCor;
+    </script>
+</body>
+</html>
